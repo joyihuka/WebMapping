@@ -1,128 +1,143 @@
 <!DOCTYPE html>
 <html>
-
-  <head>
+<head>
     <meta charset='utf-8' />
-    <title>Joy's Fixed Map</title>
+    <title>Joy's Owners vs Renters Map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <!--    1.1.  Include the reference to the Mapbox JavaScript here in the <head> of the page  -->
-      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
-    <!--    1.2 Include the reference to the Mapbox CSS here in the <head> of the page  -->
-      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
     <style>
-        /* 1.4 Insert the CSS code here between the <style> tags */
-          body { margin:50px; padding:0; }
-          #map1 { position:relative; height:300px; width:100%;}
-        /* 2.5.2 Insert additional CSS code here between the <style> tags */
-          #map2 { position:relative; height:300px; width:100%;}
-          #map3 { position:relative; height:300px; width:100%;}
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+
+         /*  stlye for paragraph tags */
+     p {
+     color: white;
+     }
+
+   /* style for heading level 4 tags */
+         h4 {
+        color: white;
+        margin-left: 10px;  
+         }
+
+   /*  style for items with the class "LegendContainer" */
+        .LegendContainer {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 2;
+        width: 300px;
+        height: 40px;
+        background: rgba(80, 80, 80, .75);
+        transition: width 2s, height 2s; /* this is the time it takes for the container to transition */
+        border-radius: 7px;
+     }
+
+   /*  style for items with the class "descriptionPanel" */
+   .descriptionPanel {
+     position: absolute;
+     bottom: 65px;
+     left: 20px;
+     z-index: 2;
+     width: 300px;
+     height: 40px;
+     background: rgba(80, 80, 80, .75);
+     transition: width 2s, height 2s;
+     overflow: hidden;
+     border-radius: 7px;
+   }
+
+   /*  style for items with the class "descriptionPanel" when active */
+   .LegendContainer:active {
+     width: 240px;
+     height: 250px;
+   }
+
+   /* style for items with the class "legendItem" */
+   .legendItem {
+       margin: 0px;
+       padding-left: 10px;
+       display:inline-block;
+       margin:auto;
+       transform: translate(50%, 50%);
+   }
+        
+
+   /* style for items with the class "layerDescription" */
+   .layerDescription {
+     color: white;
+     padding-left: 10px;
+   }
+
+        
+   .renter {
+         color:#ff9f0a;
+   }
+   .owner{
+         color:#34c759;
+   }
+
+   /* style for items with the class "chevron" */
+   .chevron {
+     position: relative;
+     margin-left: 45%;
+     font-size: x-large;
+     color: white;
+   }
+
     </style>
-  </head>
-
-  <body>
-        <!-- 1.3 Insert the div for the structure of the page here in the <body> of the page -->
-          <h1> Home. Where everything began: </h1>
-          <div id='map1'></div>
-    <hr>
-          <h1> Moving here was a big shift. Cold and very different from home. But it helped me grow:</h1>
-         <div id='map2'></div>
-
-         <h1> Now I’m in Eugene. It feels like everything I’ve worked for is coming together:</h1>
-         <div id='map3'></div>
-        <script>
-            /* Insert the JavaScript within the <script> tags, within the body */
-            // 2.1 Start with the Mapbox access token
-            mapboxgl.accessToken = 'pk.eyJ1Ijoiam95aWh1a2EiLCJhIjoiY205MXVlaGNrMDR2cTJsb2o2Znc5YXhjaCJ9.EcGXH76YtuBJRbLFziLsIA'; //  Put your access token between the single quotes.
-
-            // 2.2 Then initialize the first map
-            var map = new mapboxgl.Map({
-       container: 'map1', // id of a div on your page, where the map will be inserted
-       style: 'mapbox://styles/mapbox/satellite-streets-v12', // the style URL 'mapbox://styles/mapbox/streets-v11' 
-       center: [7.033611, 4.824167], // starting position [lng, lat] eg. [-122.6788, 45.5212]
-       zoom: 11 // starting zoom 
-   });
-
-            // 2.3 Add any other variables (such as popups and markers) to the first map
-            var popup = new mapboxgl.Popup()
-                      .setText('Port Harcourt! My starting point.');
-
-                  var marker = new mapboxgl.Marker({color:'red'})
-                    .setLngLat([7.033611, 4.824167]) // starting position [lng, lat]
-                    .setPopup(popup) //add the popup named "popup" to this marker 
-		    .addTo(map); // add it to the map with the ID "map"
-
-            // 2.4 Add arguments to disable the map interactivity here
-            // Disable drag and zoom handlers.
-            map.dragPan.disable();
-               map.scrollZoom.disable();
-               map.boxZoom.disable();
-               map.dragRotate.disable();
-               map.keyboard.disable();
-               map.doubleClickZoom.disable();
-               map.touchZoomRotate.disable();
-               map.touchZoomRotate.disableRotation();
-
-            // 2.5.3 Then initialize the 2nd map
-            var map2 = new mapboxgl.Map({
-         container: 'map2', // id of a div on your page, where the map will be inserted
-         style: 'mapbox://styles/mapbox/outdoors-v12', // stylesheet location
-         center: [-120.544, 47.000], // starting position [lng, lat] eg. [-122.6788, 45.5212]
-         zoom: 11 // starting zoom 
-         });
-
-            // 2.5.4 Add any other variables (such as markers) to the second map
-            var popup2 = new mapboxgl.Popup()
-         .setText('Ellensburg! Where I found my strength during my master’s.');
-
-         var marker2 = new mapboxgl.Marker({color:'red'})
-           .setLngLat([-120.544, 47.000]) // starting position [lng, lat] 
-           .setPopup(popup2) //add the popup to the marker 
-           .addTo(map2); // id it to the map with the ID *map2*
-
-            // 2.5.5 Add arguments to disable the second map's interactivity here
-            map2.dragPan.disable();
-         map2.scrollZoom.disable();
-         map2.boxZoom.disable();
-         map2.dragRotate.disable();
-         map2.keyboard.disable();
-         map2.doubleClickZoom.disable();
-         map2.touchZoomRotate.disable();
-         map2.touchZoomRotate.disableRotation();
-            
-            
-           // Initialize the third map
-            var map3 = new mapboxgl.Map({
-          container: 'map3', // id of a div on your page, where the map will be inserted
-          style: 'mapbox://styles/mapbox/navigation-day-v1', // stylesheet location
-          center: [-123.0867, 44.0521], // starting position [lng, lat] eg. [-122.6788, 45.5212]
-          zoom: 11 // starting zoom 
-          });
-
-         //Add marker
-         var popup3 = new mapboxgl.Popup()
-         .setText('Eugene! My next chapter and where the vision continues.');
-
-         var marker3 = new mapboxgl.Marker({color:'red'})
-           .setLngLat([-123.0867, 44.0521]) // starting position [lng, lat] 
-           .setPopup(popup3) //add the popup to the marker 
-           .addTo(map3); // id it to the map with the ID *map3*
-
-            // Disable drag and zoom handlers. 
-            map3.dragPan.disable();
-         map3.scrollZoom.disable();
-         map3.boxZoom.disable();
-         map3.dragRotate.disable();
-         map3.keyboard.disable();
-         map3.doubleClickZoom.disable();
-         map3.touchZoomRotate.disable();
-         map3.touchZoomRotate.disableRotation();
-
-          // 2.6 Change the map pointers
-         map.getCanvas().style.cursor = 'auto';
-            map2.getCanvas().style.cursor = 'auto';
-            map3.getCanvas().style.cursor = 'auto';
+</head>
+<body>
+  <div id='map'></div>
+  <div class="descriptionPanel" id="descriptionPanel" style="height: 250px;">
+    <span onClick=panelSelect() id="glyph" class="chevron glyphicon glyphicon-chevron-down"></span>
+    <hr/>
+    <h4>WHAT AM I LOOKING AT?</h4>
+    <p style="margin-left: 10px; margin-right: 10px;">
+      This is a map showing every single person in the Portland Area as a dot. Data is taken from the 2017 US Census, and is accurate at the level of a block; however, within each block location is randomized. Points are colored based on the number of home owners versus renters on a block.
+    </p>
+    <!-- </div> add legend for map layers.  -->
+  <div class="LegendContainer">
+    <div class="legendItem">
+        <span class="owner">&#11044;</span>
+        <span class="layerDescription">Owners</span>
+    </div>
+    <div class="legendItem">
+        <span class="renter">&#11044;</span>
+        <span class="layerDescription">Renters</span>
+    </div>
+  </div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoiam95aWh1a2EiLCJhIjoiY205MXVlaGNrMDR2cTJsb2o2Znc5YXhjaCJ9.EcGXH76YtuBJRbLFziLsIA'; 
+    var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/joyihuka/cm9ropx7i00ax01sscj3o3v7t' // stylesheet location
+    });
+    // style: 'mapbox://styles/joyihuka/cm9qktsvd00fd01rm01pudifw' // stylesheet location
+    // }); Previous style
 
 
-        </script>
-  </body>
+    // Add zoom and rotation controls to the map.
+        // map.addControl(new mapboxgl.NavigationControl());
+        const nav = new mapboxgl.NavigationControl();
+        map.addControl(nav, 'top-left');
+        var state = { panelOpen: true };
+// Add Legend Interaction
+      function panelSelect(e){
+        if(state.panelOpen){
+          document.getElementById('descriptionPanel').style.height = '26px';
+          document.getElementById('glyph').className = "chevron glyphicon glyphicon-chevron-up";
+          state.panelOpen = false;
+        } else {
+          document.getElementById('descriptionPanel').style.height = '250px';
+          document.getElementById('glyph').className = "chevron glyphicon glyphicon-chevron-down";
+          state.panelOpen = true;
+        }
+      }
+    
+  </script>
+
+</body>
 </html>

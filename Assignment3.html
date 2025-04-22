@@ -113,7 +113,9 @@
     mapboxgl.accessToken = 'pk.eyJ1Ijoiam95aWh1a2EiLCJhIjoiY205MXVlaGNrMDR2cTJsb2o2Znc5YXhjaCJ9.EcGXH76YtuBJRbLFziLsIA'; 
     var map = new mapboxgl.Map({
         container: 'map', // container id
-        style: 'mapbox://styles/joyihuka/cm9ropx7i00ax01sscj3o3v7t' // stylesheet location
+        style: 'mapbox://styles/joyihuka/cm9ropx7i00ax01sscj3o3v7t', // stylesheet location
+        center: [-122.6784, 45.5152], // starting position [lng, lat] eg. [-122.6788, 45.5212]
+        zoom: 10 // starting zoom 
     });
     // style: 'mapbox://styles/joyihuka/cm9qktsvd00fd01rm01pudifw' // stylesheet location
     // }); Previous style
